@@ -13,7 +13,20 @@ require_relative 'book'
             book = Book.new(content[0],content[1], content[3], content[2])
             @books_in_stock[book.isbn] =  book
         end
-      end  
+      end
+
+      def storeData
+           f = File.new("temp.csv",  "w")
+           @books_in_stock.each_value do |b| 
+                f.puts "#{b.isbn},#{b.title},#{b.price},#{b.author}"
+           end
+           File.rename("temp.csv",@data_file)
+     end
+
+     def execute
+       @data_source.storeData
+       puts 'Goodbye!'
+    end  
 
       def isbnSearch isbn
          @books_in_stock[isbn]
